@@ -15,12 +15,25 @@ public abstract class Agent implements Serializable, Runnable{
         this.name = name;
     }
 
+    public Agent() {
+        heading = Heading.parse();
+        xc = Utilities.rng.nextInt();
+        xy = Utilities.rng.nextInt();
+
+    }
+
     // Setup for operations below
     public void run(){}
     public void start(){}
-    public void suspend(){}
-    public void resume(){}
-    public void stop(){}
+    public void suspend(){
+        suspended = true;
+    }
+    public void resume(){
+        suspended = false;
+    }
+    public void stop(){
+        stopped = true;
+    }
     public abstract void update();
     public void move(int steps){}
 
