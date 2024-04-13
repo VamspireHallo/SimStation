@@ -18,7 +18,7 @@ public abstract class Agent implements Serializable, Runnable{
     public Agent() {
         heading = Heading.parse();
         xc = Utilities.rng.nextInt();
-        xy = Utilities.rng.nextInt();
+        yc = Utilities.rng.nextInt();
 
     }
 
