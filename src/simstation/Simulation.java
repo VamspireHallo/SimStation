@@ -25,5 +25,10 @@ public class Simulation extends Model {
     }
 
     // etc.
+    public void start() {}
+    public void suspend() {}
+    public void resume() {}
+    public void stop() {}
+    public void stats() {}
 
 }
