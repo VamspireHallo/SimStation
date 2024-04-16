@@ -11,4 +11,12 @@ public enum Heading {
         if (heading.equalsIgnoreCase("south")) return SOUTH;
         return null;
     }
+
+    public static Heading random() {
+        int luck = Utilities.rng.nextInt(4);
+        if (luck == 0) return NORTH;
+        if (luck == 1) return EAST;
+        if (luck == 2) return SOUTH;
+        return WEST;
+    }
 }
