@@ -3,10 +3,12 @@ package simstation;
 import java.util.*;
 import mvc.*;
 
-public class Simulation extends Model {
+public abstract class Simulation extends Model {
 
     transient private Timer timer; // timers aren't serializable
-    private int clock;
+    private int clock = 0;
+    public final static int SIZE = 200;
+    public List<Agent> agents = new ArrayList<>();
 
     private void startTimer() {
         timer = new Timer();
@@ -25,10 +27,37 @@ public class Simulation extends Model {
     }
 
     // etc.
-    public void start() {}
-    public void suspend() {}
-    public void resume() {}
-    public void stop() {}
-    public void stats() {}
+    public void start() {
+        startTimer();
+        agents.clear();
+        populate();
+        for (Agent a : agents) {
+            a.start();
+        }
+        notify();
+    }
+    public void suspend() {
+        stopTimer();
+        for (Agent a : agents) {
+            a.suspend();
+        }
+        notify();
+    }
+    public void resume() {
+        startTimer();
+        for (Agent a : agents) {
+            a.resume();
+        }
+        notify();
+    }
+    public void stop() {
+        for (Agent a : agents) {
+            a.start();
+        }
+        notify();
+    }
+    public abstract String[] stats();
+
+    public abstract void populate();
 
 }

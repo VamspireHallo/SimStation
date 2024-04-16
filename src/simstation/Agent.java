@@ -57,13 +57,54 @@ public abstract class Agent implements Serializable, Runnable{
     }
     public synchronized void resume(){
         suspended = false;
+        notify();
     }
     public synchronized void stop(){
         stopped = true;
     }
     public abstract void update();
-    public synchronized void move(int steps){
+    public synchronized void move(int steps) {
+        switch (heading) {
+            case NORTH:
+                for (int i = 0; i < steps; i++) {
+                    if (yc < 0) {
+                        yc = simstation.Simulation.SIZE - 1;
+                    } else {
+                        yc--;
+                    }
+                    notify();
+                }
 
+            case EAST:
+                for (int i = 0; i < steps; i++) {
+                    if (xc > simstation.Simulation.SIZE - 1) {
+                        xc = 0;
+                    } else {
+                        xc++;
+                    }
+                    notify();
+                }
+
+            case SOUTH:
+                for (int i = 0; i < steps; i++) {
+                    if (yc > simstation.Simulation.SIZE - 1) {
+                        yc = 0;
+                    } else {
+                        yc++;
+                    }
+                    notify();
+                }
+
+            case WEST:
+                for (int i = 0; i < steps; i++) {
+                    if (xc < 0) {
+                        xc = simstation.Simulation.SIZE - 1;
+                    } else {
+                        xc--;
+                    }
+                    notify();
+                }
+        }
     }
 
 }
