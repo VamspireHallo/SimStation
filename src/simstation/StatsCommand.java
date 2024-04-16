@@ -1,4 +1,13 @@
 package simstation;
+import mvc.*;
 
-public class StatsCommand {
+public class StatsCommand extends Command{
+    public StatsCommand(Model model){
+        super(model);
+    }
+
+    public void execute() throws Exception {
+        Simulation sim = (Simulation) model;
+        sim.stats();
+    }
 }
