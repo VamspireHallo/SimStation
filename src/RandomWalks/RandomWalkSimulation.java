@@ -21,20 +21,11 @@ public class RandomWalkSimulation extends Simulation {
             builder.setLength(0);
         }
         return stats;
-
-
-
-
     }
 
     public void populate() {
         for(int i = 0; i < 15; i++)
             addAgent(new Drunk("Drunk " + i));
-    }
-
-    public static void main(String[] args) {
-        AppPanel panel = new SimulationPanel(new RandomWalkFactory());
-        panel.display();
     }
 
 }
