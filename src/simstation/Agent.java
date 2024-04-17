@@ -1,6 +1,8 @@
 package simstation;
 import mvc.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Agent implements Serializable, Runnable{
     protected String name;
@@ -11,6 +13,8 @@ public abstract class Agent implements Serializable, Runnable{
     protected boolean stopped = false;
     protected Thread myThread;
     protected Simulation sim;
+
+
 
     public Agent(String name) {
         this.name = name;
@@ -116,5 +120,6 @@ public abstract class Agent implements Serializable, Runnable{
     public synchronized int getYc() {
         return yc;
     }
+
 
 }

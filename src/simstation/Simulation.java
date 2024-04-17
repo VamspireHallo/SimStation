@@ -80,5 +80,9 @@ public abstract class Simulation extends Model {
         }
         return result;
     }
+    public void addAgent(Agent agent)
+    {
+        this.agents.add(agent);
+    }
 
 }
