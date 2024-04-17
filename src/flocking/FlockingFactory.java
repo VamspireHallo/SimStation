@@ -6,7 +6,7 @@ public class FlockingFactory extends SimulationFactory{
         return new FlockingSimulation();
     }
     public String getTitle() {
-        return "Flocking Simulation";
+        return "Flocking Simulator";
     }
     public View makeView(Model model) {
         return new FlockingView(model);

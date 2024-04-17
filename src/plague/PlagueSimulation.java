@@ -15,22 +15,23 @@ public class PlagueSimulation extends Simulation {
     // Override populate method to create initial population
     @Override
     public void populate() {
+
         for (int i = 0; i < 50; i++) {
-            Host host = new Host("Host_" + i);
-            agents.add(host);
+            addAgent(new Host("Plague " + i, false));
         }
         // Infect some initial hosts
         infectInitialHosts();
+
+
+
     }
 
     // Method to infect some initial hosts
     private void infectInitialHosts() {
         Random random = new Random();
-        int numInfected = agents.size() / 10; // Infect 10% of initial population
+        int numInfected = agents.size() / 10;
         for (int i = 0; i < numInfected; i++) {
-            int index = random.nextInt(agents.size());
-            Host host = (Host) agents.get(index);
-            host.setInfected(true);
+            addAgent(new Host("Plague " + i, false));
         }
     }
 
@@ -46,7 +47,8 @@ public class PlagueSimulation extends Simulation {
             }
         }
         double percentageInfected = (double) infectedHosts / totalHosts * 100;
-        return new String[]{"Infected Hosts: " + infectedHosts, "Total Hosts: " + totalHosts,
+        return new String[]{"Infected Hosts: " + infectedHosts,
+                "Total Hosts: " + totalHosts,
                 "Percentage Infected: " + (percentageInfected) + "%"};
     }
 }

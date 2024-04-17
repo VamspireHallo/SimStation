@@ -9,41 +9,18 @@ public class Host extends Agent {
     private Simulation sim;
 
     // Constructor
-    public Host(String name) {
+    public Host(String name, boolean _infected) {
         super(name);
-        this.infected = false;
-        this.resistance = 0; // Initial resistance level
+
+        this.setXc(Utilities.rng.nextInt(350));
+        this.setYc(Utilities.rng.nextInt(475));
+        heading = Heading.random();
+        infected = _infected;
     }
 
-    // Getter and setter methods for infected and resistance properties
-    public boolean isInfected() {
-        return infected;
-    }
-
-    public void setInfected(boolean infected) {
-        this.infected = infected;
-    }
-
-    public int getResistance() {
-        return resistance;
-    }
-
-    public void setResistance(int resistance) {
-        this.resistance = resistance;
-    }
-
-    // Override update method to simulate host behavior
-    @Override
     public void update() {
-        if (infected) {
-            spreadInfection();
-        }
-    }
-
-    // Method to spread infection to neighboring hosts
-    private void spreadInfection() {
-        Host neighbor = (Host) sim.getNeighbor(this, 1);
-        if (neighbor != null && !neighbor.isInfected())
+        Host randNeighbor = (Host) sim.getNeighbor(this, 1);
+        if (randNeighbor != null && !randNeighbor.isInfected())
         {
             boolean infect = Utilities.rng.nextInt(101) < PlagueSimulation.VIRULENCE;
             boolean resist = Utilities.rng.nextInt(101) < PlagueSimulation.RESISTANCE;
@@ -51,12 +28,22 @@ public class Host extends Agent {
             //if both not hit keep true
             if (infect && !resist)
             {
-                neighbor.setInfected(true);
+                randNeighbor.setInfected(true);
             }
         }
 
         heading = Heading.random();
         int steps = Utilities.rng.nextInt(10) + 1;
         move(steps);
+
+    }
+
+    // allowed to have getters/setters?
+    public boolean isInfected() {
+        return infected;
+    }
+
+    public void setInfected(boolean infected) {
+        this.infected = infected;
     }
 }

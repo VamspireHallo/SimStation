@@ -4,29 +4,39 @@ import mvc.*;
 
 import java.awt.*;
 
-public class PlagueView extends View {
+public class PlagueView extends SimulationView {
     public PlagueView(Model model) {
         super(model);
     }
 
-    protected void drawHosts(Graphics gc, Host host) {
+    protected void drawHosts(Graphics gc, Host host, Agent agent) {
+        Color color;
         if (host.isInfected()) {
-            gc.setColor(Color.RED);
+            color = Color.RED;
         } else {
-            gc.setColor(Color.GREEN);
+            color = Color.GREEN;
         }
-        gc.fillOval(host.getXc(), host.getYc(), 10, 10);
+        gc.setColor(color);
+        int x = agent.getXc();
+        int y = agent.getYc();
+        gc.fillOval(x, y, 10, 10);
     }
 
     public void paintComponent(Graphics gc) {
         super.paintComponent(gc);
-        Color oldColor = Color.WHITE;
-        PlagueSimulation sim = (PlagueSimulation) model;
-
-        for (Agent agent : sim.agents) {
-            drawHosts(gc, (Host) agent);
+        var sim = (PlagueSimulation) model;
+        for (Agent agent : sim.getAgents()) {
+            Host plague = (Host) agent;
+            Color color;
+            if (plague.isInfected()) {
+                color = Color.RED; // infected color
+            } else {
+                color = Color.GREEN; // No infect color
+            }
+            gc.setColor(color);
+            int x = agent.getXc();
+            int y = agent.getYc();
+            gc.fillOval(x, y, 10, 10);
         }
-
-        gc.setColor(oldColor);
     }
 }
