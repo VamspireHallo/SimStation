@@ -11,7 +11,7 @@ public class SimulationView extends View {
 
     protected void drawAgents(Graphics gc, Agent agent) {
         gc.setColor(Color.WHITE);
-        gc.fillOval(agent.xc, agent.yc, 10, 10);
+        gc.fillOval(agent.getXc(), agent.getYc(), 10, 10);
     }
 
     public void paintComponent(Graphics gc) {
