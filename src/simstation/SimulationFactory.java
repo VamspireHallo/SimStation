@@ -18,6 +18,16 @@ public abstract class SimulationFactory implements AppFactory {
 
     @Override
     public Command makeEditCommand(Model model, String type, Object source) {
+        if (type == "Start")
+            return new StartCommand(model);
+        if (type == "Suspend")
+            return new SuspendCommand(model);
+        if (type == "Resume")
+            return new ResumeCommand(model);
+        if (type == "Stop")
+            return new StopCommand(model);
+        if (type == "Stats")
+            return new StatsCommand(model);
         return null;
     }
 
