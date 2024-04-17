@@ -1,4 +1,5 @@
 package plague;
+import mvc.Utilities;
 import simstation.*;
 import java.util.Random;
 
@@ -41,17 +42,21 @@ public class Host extends Agent {
 
     // Method to spread infection to neighboring hosts
     private void spreadInfection() {
-        Simulation simulation = sim;
-        Random random = new Random();
-        for (Agent neighbor : simulation.getAllNeighbors(this, 20)) {
-            if (neighbor instanceof Host) {
-                Host neighborHost = (Host) neighbor;
-                if (!neighborHost.isInfected() && random.nextInt(100) < PlagueSimulation.VIRULENCE) {
-                    if (random.nextInt(100) < PlagueSimulation.RESISTANCE) {
-                        neighborHost.setInfected(true);
-                    }
-                }
+        Host neighbor = (Host) sim.getNeighbor(this, 1);
+        if (neighbor != null && !neighbor.isInfected())
+        {
+            boolean infect = Utilities.rng.nextInt(101) < PlagueSimulation.VIRULENCE;
+            boolean resist = Utilities.rng.nextInt(101) < PlagueSimulation.RESISTANCE;
+
+            //if both not hit keep true
+            if (infect && !resist)
+            {
+                neighbor.setInfected(true);
             }
         }
+
+        heading = Heading.random();
+        int steps = Utilities.rng.nextInt(10) + 1;
+        move(steps);
     }
 }

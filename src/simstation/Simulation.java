@@ -9,6 +9,8 @@ public abstract class Simulation extends Model {
     private int clock = 0;
     public final static int SIZE = 200;
     public List<Agent> agents = new ArrayList<>();
+    private int width=400;
+    private int height=400;
 
     private void startTimer() {
         timer = new Timer();
@@ -20,6 +22,9 @@ public abstract class Simulation extends Model {
         timer.purge();
     }
 
+    public int getHeight() { return height; }
+    public int getWidth() { return width; }
+
     private class ClockUpdater extends TimerTask {
         public void run() {
             clock++;
@@ -28,32 +33,33 @@ public abstract class Simulation extends Model {
 
     // etc.
     public void start() {
+        stop();
         startTimer();
-        agents.clear();
         populate();
-        for (Agent a : agents) {
-            a.start();
+        for (var agent : agents) {
+            new Thread(agent).start();
         }
-        notify();
+        changed();
     }
     public void suspend() {
-        stopTimer();
         for (Agent a : agents) {
             a.suspend();
         }
+        stopTimer();
         notify();
     }
     public void resume() {
-        startTimer();
         for (Agent a : agents) {
             a.resume();
         }
+        startTimer();
         notify();
     }
     public void stop() {
         for (Agent a : agents) {
-            a.start();
+            a.stop();
         }
+        agents.clear();
         notify();
     }
     public abstract String[] stats();
@@ -61,24 +67,26 @@ public abstract class Simulation extends Model {
     public abstract void populate();
 
     public Agent getNeighbor(Agent agent, double radius) {
-        int start = Utilities.rng.nextInt(agents.size());
-        for (int i = 0; i < agents.size(); ++i){
-            Agent current = agents.get((start + i)%agents.size());
-            if (Math.sqrt(Math.pow(current.xc-agent.xc, 2) + Math.pow(current.yc-agent.yc, 2)) < radius){
-                return current;
+        for (int agentsSize = agents.size(), i = Utilities.rng.nextInt(0, agentsSize);
+             i < agentsSize;
+             i = (i + 1) % agentsSize) {
+
+            Agent a = agents.get(i);
+            int deltaX = agent.getXc() - a.getXc();
+            int deltaY = agent.getYc() - a.getYc();
+            int distSq = deltaX * deltaX + deltaY * deltaY;
+            if (distSq <= (radius*radius)) {
+                return a;
             }
         }
-
         return null;
     }
-    public List<Agent> getAllNeighbors(Agent agent, double radius) {
-        LinkedList<Agent> result = new LinkedList<>();
-        for (Agent current : agents){
-            if (Math.sqrt(Math.pow(current.xc-agent.xc, 2) + Math.pow(current.yc-agent.yc, 2)) < radius){
-                result.add(current);
-            }
-        }
-        return result;
+    protected void addAgent(Agent agent) {
+        agent.setSim(this);
+        this.agents.add(agent);
     }
 
+    public List<Agent> getAgents() {
+        return agents;
+    }
 }

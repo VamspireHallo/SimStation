@@ -8,7 +8,7 @@ public abstract class SimulationFactory implements AppFactory {
 
     @Override
     public View makeView(Model model) {
-        return new SimulationView((Simulation) model);
+        return new SimulationView(model);
     }
 
     @Override

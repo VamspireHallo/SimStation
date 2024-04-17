@@ -22,7 +22,9 @@ public abstract class Agent implements Serializable, Runnable{
         yc = Utilities.rng.nextInt();
 
     }
-
+    public void setSim(Simulation simulation) {
+        this.sim = simulation;
+    }
     // Setup for operations below
     public void run(){
         myThread = Thread.currentThread();
