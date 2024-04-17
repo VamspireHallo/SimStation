@@ -4,8 +4,8 @@ import mvc.Utilities;
 import java.util.*;
 
 public class PlagueSimulation extends Simulation {
-    public static int VIRULENCE = 50; // % chance of infection
-    public static int RESISTANCE = 2; // % chance of resisting infection
+    public static int VIRULENCE = 5; // % chance of infection
+    public static int RESISTANCE = 25; // % chance of resisting infection
 
     // Constructor
     public PlagueSimulation() {
@@ -15,12 +15,9 @@ public class PlagueSimulation extends Simulation {
     // Override populate method to create initial population
     @Override
     public void populate() {
-
-        for (int i = 0; i < 50; i++) {
+        addAgent(new Host("Plague 0" , true));
+        for(int i = 1; i < 100; i++)
             addAgent(new Host("Plague " + i, false));
-        }
-        // Infect some initial hosts
-        infectInitialHosts();
 
 
 
@@ -28,8 +25,8 @@ public class PlagueSimulation extends Simulation {
 
     // Method to infect some initial hosts
     private void infectInitialHosts() {
-        Random random = new Random();
-        int numInfected = agents.size() / 10;
+
+        int numInfected = 0;
         for (int i = 0; i < numInfected; i++) {
             addAgent(new Host("Plague " + i, false));
         }

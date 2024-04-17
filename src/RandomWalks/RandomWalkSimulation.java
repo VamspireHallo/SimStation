@@ -1,7 +1,6 @@
 package RandomWalks;
 import flocking.Bird;
 import mvc.*;
-import plague.Host;
 import simstation.*;
 
 public class RandomWalkSimulation extends Simulation {

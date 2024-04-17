@@ -1,19 +1,16 @@
 package plague;
-import mvc.Utilities;
+
+import mvc.*;
 import simstation.*;
-import java.util.Random;
 
-public class Host extends Agent {
+class Host extends Agent {
     private boolean infected;
-    private int resistance;
-    private Simulation sim;
 
-    // Constructor
     public Host(String name, boolean _infected) {
         super(name);
 
-        this.setXc(Utilities.rng.nextInt(350));
-        this.setYc(Utilities.rng.nextInt(475));
+        //this.setXc(Utilities.rng.nextInt(350));
+        //this.setYc(Utilities.rng.nextInt(475));
         heading = Heading.random();
         infected = _infected;
     }
@@ -46,4 +43,5 @@ public class Host extends Agent {
     public void setInfected(boolean infected) {
         this.infected = infected;
     }
+
 }

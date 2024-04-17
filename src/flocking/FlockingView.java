@@ -1,8 +1,7 @@
 package flocking;
 
 import mvc.*;
-import plague.Host;
-import plague.PlagueSimulation;
+import plague.*;
 import simstation.*;
 
 import java.awt.*;
