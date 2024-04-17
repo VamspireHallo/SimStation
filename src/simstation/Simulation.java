@@ -60,4 +60,25 @@ public abstract class Simulation extends Model {
 
     public abstract void populate();
 
+    public Agent getNeighbor(Agent agent, double radius) {
+        int start = Utilities.rng.nextInt(agents.size());
+        for (int i = 0; i < agents.size(); ++i){
+            Agent current = agents.get((start + i)%agents.size());
+            if (Math.sqrt(Math.pow(current.xc-agent.xc, 2) + Math.pow(current.yc-agent.yc, 2)) < radius){
+                return current;
+            }
+        }
+
+        return null;
+    }
+    public List<Agent> getAllNeighbors(Agent agent, double radius) {
+        LinkedList<Agent> result = new LinkedList<>();
+        for (Agent current : agents){
+            if (Math.sqrt(Math.pow(current.xc-agent.xc, 2) + Math.pow(current.yc-agent.yc, 2)) < radius){
+                result.add(current);
+            }
+        }
+        return result;
+    }
+
 }

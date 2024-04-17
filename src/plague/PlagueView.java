@@ -15,12 +15,12 @@ public class PlagueView extends View {
         } else {
             gc.setColor(Color.GREEN);
         }
-        gc.fillOval(host.xc, host.yc, 10, 10);
+        gc.fillOval(host.getXc(), host.getYc(), 10, 10);
     }
 
     public void paintComponent(Graphics gc) {
         super.paintComponent(gc);
-        Color oldColor = gc.getColor();
+        Color oldColor = Color.WHITE;
         PlagueSimulation sim = (PlagueSimulation) model;
 
         for (Agent agent : sim.agents) {

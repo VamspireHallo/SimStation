@@ -5,7 +5,7 @@ import java.io.Serializable;
 public abstract class Agent implements Serializable, Runnable{
     protected String name;
     protected Heading heading;
-    protected int xc;
+    public int xc;
     protected int yc;
     protected boolean suspended = false;
     protected boolean stopped = false;
@@ -107,6 +107,14 @@ public abstract class Agent implements Serializable, Runnable{
                     notify();
                 }
         }
+    }
+
+    public synchronized int getXc() {
+        return xc;
+    }
+
+    public synchronized int getYc() {
+        return yc;
     }
 
 }

@@ -4,9 +4,7 @@ import mvc.*;
 public abstract class SimulationFactory implements AppFactory {
 
     @Override
-    public Model makeModel() {
-        return null;
-    }
+    public abstract Model makeModel();
 
     @Override
     public View makeView(Model model) {

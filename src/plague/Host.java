@@ -5,6 +5,7 @@ import java.util.Random;
 public class Host extends Agent {
     private boolean infected;
     private int resistance;
+    private Simulation sim;
 
     // Constructor
     public Host(String name) {
@@ -40,13 +41,15 @@ public class Host extends Agent {
 
     // Method to spread infection to neighboring hosts
     private void spreadInfection() {
-        PlagueSimulation simulation = (PlagueSimulation) getSim();
+        Simulation simulation = sim;
         Random random = new Random();
-        for (Agent neighbor : simulation.getNeighbor(this)) {
-            Host neighborHost = (Host) neighbor;
-            if (!neighborHost.isInfected() && random.nextInt(100) < PlagueSimulation.VIRULENCE) {
-                if (random.nextInt(100) < PlagueSimulation.RESISTANCE) {
-                    neighborHost.setInfected(true);
+        for (Agent neighbor : simulation.getAllNeighbors(this, 20)) {
+            if (neighbor instanceof Host) {
+                Host neighborHost = (Host) neighbor;
+                if (!neighborHost.isInfected() && random.nextInt(100) < PlagueSimulation.VIRULENCE) {
+                    if (random.nextInt(100) < PlagueSimulation.RESISTANCE) {
+                        neighborHost.setInfected(true);
+                    }
                 }
             }
         }
