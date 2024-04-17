@@ -47,6 +47,6 @@ public class PlagueSimulation extends Simulation {
         }
         double percentageInfected = (double) infectedHosts / totalHosts * 100;
         return new String[]{"Infected Hosts: " + infectedHosts, "Total Hosts: " + totalHosts,
-                "Percentage Infected: " + Utilities.format(percentageInfected) + "%"};
+                "Percentage Infected: " + (percentageInfected) + "%"};
     }
 }

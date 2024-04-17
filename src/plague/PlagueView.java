@@ -23,7 +23,7 @@ public class PlagueView extends View {
         Color oldColor = gc.getColor();
         PlagueSimulation sim = (PlagueSimulation) model;
 
-        for (Agent agent : sim.getAgents()) {
+        for (Agent agent : sim.agents) {
             drawHosts(gc, (Host) agent);
         }
 

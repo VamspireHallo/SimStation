@@ -42,7 +42,7 @@ public class Host extends Agent {
     private void spreadInfection() {
         PlagueSimulation simulation = (PlagueSimulation) getSim();
         Random random = new Random();
-        for (Agent neighbor : simulation.getNeighborsOf(this)) {
+        for (Agent neighbor : simulation.getNeighbor(this)) {
             Host neighborHost = (Host) neighbor;
             if (!neighborHost.isInfected() && random.nextInt(100) < PlagueSimulation.VIRULENCE) {
                 if (random.nextInt(100) < PlagueSimulation.RESISTANCE) {
