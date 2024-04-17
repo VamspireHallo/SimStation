@@ -10,13 +10,14 @@ public abstract class Agent implements Serializable, Runnable{
     protected boolean suspended = false;
     protected boolean stopped = false;
     protected Thread myThread;
+    protected Simulation sim;
 
     public Agent(String name) {
         this.name = name;
     }
 
     public Agent() {
-        // heading = Heading.parse(); //this is for the heading, needs finishing
+        heading = Heading.random();
         xc = Utilities.rng.nextInt();
         yc = Utilities.rng.nextInt();
 
@@ -36,6 +37,7 @@ public abstract class Agent implements Serializable, Runnable{
                 Utilities.error(e);
             }
         }
+        notify();
     }
     public synchronized void start(){
         myThread = new Thread(this);
