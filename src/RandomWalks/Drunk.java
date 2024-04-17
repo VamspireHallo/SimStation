@@ -5,8 +5,8 @@ import simstation.*;
 
 class Drunk extends Agent {
 
-    public Drunk() {
-        super();
+    public Drunk(String name) {
+        super(name);
         heading = Heading.random();
     }
 

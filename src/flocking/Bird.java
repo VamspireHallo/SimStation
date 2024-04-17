@@ -7,10 +7,10 @@ import java.util.List;
 public class Bird extends Agent{
     public double speed;
     public static final double MAX_SPEED = 5;
-    public Bird() {
-        super();
+    public Bird(String name) {
+        super(name);
         heading = Heading.random();
-        speed = Utilities.rng.nextInt(5) + 1;
+        speed = Utilities.rng.nextInt(10);
     }
 
     public void update() {

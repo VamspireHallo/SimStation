@@ -29,9 +29,8 @@ public abstract class Agent implements Serializable, Runnable{
         while(!stopped) {
             try{
                 update();
-                Thread.sleep(100);
+                Thread.sleep(20);
                 isSuspended();
-
             }
             catch(InterruptedException e){
                 Utilities.error(e);
@@ -66,47 +65,22 @@ public abstract class Agent implements Serializable, Runnable{
     }
     public abstract void update();
     public synchronized void move(int steps) {
+        int dx = 0;
+        int dy = 0;
         switch (heading) {
             case NORTH:
-                for (int i = 0; i < steps; i++) {
-                    if (yc < 0) {
-                        yc = simstation.Simulation.SIZE - 1;
-                    } else {
-                        yc--;
-                    }
-                    notify();
-                }
-
-            case EAST:
-                for (int i = 0; i < steps; i++) {
-                    if (xc > simstation.Simulation.SIZE - 1) {
-                        xc = 0;
-                    } else {
-                        xc++;
-                    }
-                    notify();
-                }
-
+                dy -= -steps;
             case SOUTH:
-                for (int i = 0; i < steps; i++) {
-                    if (yc > simstation.Simulation.SIZE - 1) {
-                        yc = 0;
-                    } else {
-                        yc++;
-                    }
-                    notify();
-                }
-
+                dy += +steps;
+            case EAST:
+                dx += +steps;
             case WEST:
-                for (int i = 0; i < steps; i++) {
-                    if (xc < 0) {
-                        xc = simstation.Simulation.SIZE - 1;
-                    } else {
-                        xc--;
-                    }
-                    notify();
-                }
+                dx -= -steps;
         }
+
+        setXc(xc + dx);
+        setYc(yc + dy);
+        sim.changed();
     }
 
     public void setXc(int xc) {

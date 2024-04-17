@@ -20,10 +20,10 @@ public class FlockingSimulation extends Simulation {
         return stats;
     }
 
-    @Override
     public void populate() {
-        for (int i = 0; i < 200; ++i) {
-            agents.add(new Bird());
+        for (int i = 0; i < 50; ++i) {
+            addAgent(new Bird("#Bird " + i));
         }
     }
+
 }
