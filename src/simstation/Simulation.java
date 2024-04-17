@@ -85,10 +85,10 @@ public abstract class Simulation extends Model {
         agent.setSim(this);
         this.agents.add(agent);
     }
-    public void addAgent(Agent agent)
-    {
-        this.agents.add(agent);
-    }
+    //public void addAgent(Agent agent)
+   // {
+        //this.agents.add(agent);
+   // }
 
     public List<Agent> getAgents() {
         return agents;
