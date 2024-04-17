@@ -9,8 +9,8 @@ public abstract class Simulation extends Model {
     private int clock = 0;
     public final static int SIZE = 200;
     public List<Agent> agents = new ArrayList<>();
-    private int width=400;
-    private int height=400;
+    private int width = 400;
+    private int height = 400;
 
     private void startTimer() {
         timer = new Timer();
@@ -46,21 +46,21 @@ public abstract class Simulation extends Model {
             a.suspend();
         }
         stopTimer();
-        notify();
+        changed();
     }
     public void resume() {
         for (Agent a : agents) {
             a.resume();
         }
         startTimer();
-        notify();
+        changed();
     }
     public void stop() {
         for (Agent a : agents) {
             a.stop();
         }
         agents.clear();
-        notify();
+        changed();
     }
     public abstract String[] stats();
 

@@ -1,26 +1,24 @@
 package simstation;
 import mvc.*;
-import java.io.Serializable;
+import java.io.*;
 
 public abstract class Agent implements Serializable, Runnable{
     protected String name;
     protected Heading heading;
     public int xc;
     protected int yc;
-    protected boolean suspended = false;
-    protected boolean stopped = false;
+    protected boolean suspended;
+    protected boolean stopped;
     protected Thread myThread;
     protected Simulation sim;
 
     public Agent(String name) {
         this.name = name;
-    }
-
-    public Agent() {
         heading = Heading.random();
+        suspended = false;
+        stopped = false;
         xc = Utilities.rng.nextInt();
         yc = Utilities.rng.nextInt();
-
     }
     public void setSim(Simulation simulation) {
         this.sim = simulation;
@@ -111,10 +109,21 @@ public abstract class Agent implements Serializable, Runnable{
         }
     }
 
+    public void setXc(int xc) {
+        if (sim != null)
+            this.xc = Math.floorMod(xc, sim.getWidth());
+        else this.xc = xc;
+    }
+
     public synchronized int getXc() {
         return xc;
     }
 
+    public void setYc(int yc) {
+        if (sim != null)
+            this.yc = Math.floorMod(yc, sim.getHeight());
+        else this.yc = yc;
+    }
     public synchronized int getYc() {
         return yc;
     }
