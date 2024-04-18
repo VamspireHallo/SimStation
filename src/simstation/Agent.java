@@ -26,8 +26,6 @@ public abstract class Agent implements Serializable, Runnable {
         suspended = false;
         stopped = false;
         myThread = null;
-
-        // randomly initialize position and heading
         heading = Heading.random();
         xc = Utilities.rng.nextInt(Simulation.SIZE);
         yc = Utilities.rng.nextInt(Simulation.SIZE);

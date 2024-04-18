@@ -116,5 +116,8 @@ public abstract class Simulation extends Model {
             clock++;
         }
     }
+    public int getClock() {
+        return clock;
+    }
 
 }

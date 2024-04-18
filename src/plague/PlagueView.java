@@ -21,7 +21,7 @@ public class PlagueView extends SimulationView {
 
         while (it.hasNext()) {
             Host a = (Host)it.next();
-            if (a.isInfected())
+            if (a.setInfected())
             {
                 gc.setColor(Color.RED);
             }
