@@ -1,4 +1,8 @@
 package PrisonerDilemma;
-
-public class Cheat extends Strategy{
+import simstation.*;
+import mvc.*;
+public class Cheat implements Strategy {
+    public boolean decide(boolean partnerCheated) {
+        return false;
+    }
 }

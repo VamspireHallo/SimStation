@@ -1,9 +1,6 @@
 package PrisonerDilemma;
-
-public class Strategy {
-    public boolean cooperate()
-    {
-    return false;
-    }
-
+import simstation.*;
+import mvc.*;
+public interface Strategy {
+    public boolean decide(boolean partnerCheated);
 }
