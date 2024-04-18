@@ -29,7 +29,7 @@ public class PlagueView extends SimulationView {
                 gc.setColor(Color.GREEN);
             }
             int agentSize = (int) Math.min(cellWidth, cellHeight) * 5;
-            gc.fillRect((int)(a.getXc() *cellWidth), (int)(a.getYc() *cellHeight), agentSize, agentSize);
+            gc.fillOval((int)(a.getXc() *cellWidth), (int)(a.getYc() *cellHeight), agentSize, agentSize);
         }
     }
 }

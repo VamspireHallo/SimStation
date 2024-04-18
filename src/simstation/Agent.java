@@ -15,7 +15,7 @@ public abstract class Agent implements Serializable, Runnable {
     protected Thread myThread;
     protected Simulation sim;
 
-    private static final int SLEEP_MS = 25;
+    private static final int SLEEP_MS = 50;
 
     public Agent(String name) {
         this.name = name;

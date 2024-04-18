@@ -27,11 +27,11 @@ public class PrisonerView extends SimulationView {
                 gc.setColor(COLOR_CHEAT);
             }
             else if (a.getStrategyAsInt() == 1) {
-                    gc.setColor(COLOR_COOPERATE);
-                }
+                gc.setColor(COLOR_COOPERATE);
+            }
             else if (a.getStrategyAsInt() == 2) {
-                    gc.setColor(COLOR_RANDOMLY_COOPERATE);
-                }
+                gc.setColor(COLOR_RANDOMLY_COOPERATE);
+            }
             else {
                 gc.setColor(COLOR_TIT4TAT);
             }
