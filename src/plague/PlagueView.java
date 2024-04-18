@@ -11,7 +11,8 @@ public class PlagueView extends SimulationView {
     }
 
     protected void drawAgents(Graphics gc) {
-        Iterator<Agent> it = model.as(Simulation.class).agentIterator();
+        Simulation simulation = (Simulation) model;
+        Iterator<Agent> it = simulation.agents.iterator();
 
         double cellWidth = ((double)getWidth())/ Simulation.SIZE;
         double cellHeight = ((double)getHeight())/ Simulation.SIZE;
@@ -23,6 +24,5 @@ public class PlagueView extends SimulationView {
             else{gc.setColor(Color.GREEN);}
             gc.fillRect((int)(a.getXc() *cellWidth), (int)(a.getYc() *cellHeight), (int)cellWidth, (int)cellHeight);
         }
-    }
     }
 }

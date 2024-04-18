@@ -3,7 +3,7 @@ import mvc.*;
 import simstation.*;
 
 public class FlockingSimulation extends Simulation {
-    @Override
+
     public String[] stats() {
         int[] speeds = new int[(int)Bird.MAX_SPEED];
 
@@ -22,7 +22,7 @@ public class FlockingSimulation extends Simulation {
 
     public void populate() {
         for (int i = 0; i < 50; ++i) {
-            addAgent(new Bird("#Bird " + i));
+            addAgent(new Bird());
         }
     }
 

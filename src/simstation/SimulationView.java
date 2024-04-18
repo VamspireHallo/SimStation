@@ -1,5 +1,4 @@
 package simstation;
-
 import mvc.*;
 
 import java.awt.*;
@@ -15,15 +14,27 @@ public class SimulationView extends View {
     }
 
     protected void drawAgents(Graphics gc) {
-        Iterator<Agent> it = model.as(Simulation.class).agentIterator();
-        gc.setColor(agentColor);
+        try {
+            Simulation simulation = (Simulation) model;
+            Iterator<Agent> it = simulation.agents.iterator();
+            gc.setColor(agentColor);
 
-        double cellWidth = ((double)getWidth())/ Simulation.SIZE;
-        double cellHeight = ((double)getHeight())/ Simulation.SIZE;
+            int viewWidth = getWidth();
+            int viewHeight = getHeight();
+            int simSize = Simulation.SIZE;
 
-        while (it.hasNext()) {
-            Agent a = it.next();
-            gc.fillOval((int)(a.getXc() *cellWidth), (int)(a.getYc() *cellHeight), (int)cellWidth, (int)cellHeight);
+            double cellWidth = (double) viewWidth / simSize;
+            double cellHeight = (double) viewHeight / simSize;
+
+            while (it.hasNext()) {
+                Agent a = it.next();
+                int x = (int) (a.getXc() * cellWidth);
+                int y = (int) (a.getYc() * cellHeight);
+                int agentSize = (int) Math.min(cellWidth, cellHeight) * 5;
+                gc.fillOval(x, y, agentSize, agentSize);
+            }
+        } catch (ClassCastException e) {
+            Utilities.error(e);
         }
     }
 
@@ -37,4 +48,5 @@ public class SimulationView extends View {
 
         gc.setColor(oldColor);
     }
+
 }

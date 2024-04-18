@@ -5,24 +5,25 @@ import mvc.*;
 import java.util.List;
 
 public class Bird extends Agent{
-    public double speed;
-    public static final double MAX_SPEED = 5;
-    public Bird(String name) {
-        super(name);
-        heading = Heading.random();
-        speed = Utilities.rng.nextInt(10);
+
+    public static final int MAX_SPEED = 5;
+    private double speed;
+    public Bird() {
+        super();
+        speed = Utilities.rng.nextInt(MAX_SPEED)+1;
     }
 
+    @Override
     public void update() {
-        Bird neighbor = (Bird) sim.getNeighbor(this, 5);
+        Bird randNeighbor = (Bird) sim.getNeighbor(this, 5);
 
-        this.speed = neighbor.speed;
-        this.heading = neighbor.heading;
+        this.speed = randNeighbor.speed;
+        this.heading = randNeighbor.heading;
 
         int steps = Utilities.rng.nextInt(10) + 1;
-        move((int)steps);
-    }
 
+        move(steps);
+    }
     public synchronized int getSpeed(){
         return (int)speed;
     }

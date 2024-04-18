@@ -5,7 +5,6 @@ import simstation.*;
 
 public class RandomWalkSimulation extends Simulation {
 
-    @Override
     public String[] stats()
     {
         int[] speeds = new int[5];

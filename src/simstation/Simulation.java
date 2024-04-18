@@ -5,7 +5,7 @@ import mvc.*;
 
 public abstract class Simulation extends Model {
     public final static int SIZE = 150;
-    protected final ArrayList<Agent> agents;  // arraylist for O(1) random access time
+    public final ArrayList<Agent> agents;  // arraylist for O(1) random access time
     private boolean isRunning;
     private boolean isSuspended;
     transient private Timer timer; // timers aren't serializable
@@ -119,6 +119,8 @@ public abstract class Simulation extends Model {
     public boolean isSuspended() {
         return isSuspended;
     }
+
+    public abstract String[] stats();
 
     private class ClockUpdater extends TimerTask {
         public void run() {
