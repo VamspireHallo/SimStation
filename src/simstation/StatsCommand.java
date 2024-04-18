@@ -8,6 +8,6 @@ public class StatsCommand extends Command{
 
     public void execute() throws Exception {
         Simulation sim = (Simulation) model;
-        sim.stats();
+        Utilities.inform(sim.stats());
     }
 }

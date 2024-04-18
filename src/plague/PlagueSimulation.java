@@ -4,7 +4,7 @@ import mvc.*;
 
 public class PlagueSimulation extends Simulation {
     public static int VIRULENCE = 5; // % chance of infection
-    public static int RESISTANCE = 25; // % chance of resisting infection
+    public static int RESISTANCE = 50; // % chance of resisting infection
 
     // Constructor
     public PlagueSimulation() {

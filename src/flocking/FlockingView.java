@@ -13,7 +13,6 @@ public class FlockingView extends SimulationView {
     public void paintComponent(Graphics gc) {
         super.paintComponent(gc);
 
-        gc.setColor(Color.WHITE);
-        setBackground(Color.WHITE);
+        setBG(Color.DARK_GRAY);
     }
 }

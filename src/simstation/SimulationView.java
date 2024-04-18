@@ -6,10 +6,15 @@ import java.util.Iterator;
 
 public class SimulationView extends View {
     protected Color agentColor = Color.WHITE;
-    protected Color backgroundColor = Color.DARK_GRAY;
+    protected Color backgroundColor = Color.WHITE;
 
     public SimulationView(Model model) {
         super(model);
+        this.setBackground(backgroundColor);
+    }
+
+    public void setBG (Color color) {
+        backgroundColor = color;
         this.setBackground(backgroundColor);
     }
 
@@ -19,12 +24,8 @@ public class SimulationView extends View {
             Iterator<Agent> it = simulation.agents.iterator();
             gc.setColor(agentColor);
 
-            int viewWidth = getWidth();
-            int viewHeight = getHeight();
-            int simSize = Simulation.SIZE;
-
-            double cellWidth = (double) viewWidth / simSize;
-            double cellHeight = (double) viewHeight / simSize;
+            double cellWidth = ((double)getWidth())/ Simulation.SIZE;
+            double cellHeight = ((double)getHeight())/ Simulation.SIZE;
 
             while (it.hasNext()) {
                 Agent a = it.next();

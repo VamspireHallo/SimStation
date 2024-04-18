@@ -59,6 +59,7 @@ public abstract class Simulation extends Model {
         for (Agent a : agents) {
             a.stop();
         }
+        agents.clear();
         isRunning = false;
         isSuspended = false;
         changed();
@@ -91,10 +92,6 @@ public abstract class Simulation extends Model {
 
     public abstract void populate();
 
-    public String[] getStats() {
-        return new String[]{"#agents = " + agents.size()};
-    }
-
     public void addAgent(Agent agent) {
         agents.add(agent);
         agent.setWorld(this);
@@ -109,18 +106,10 @@ public abstract class Simulation extends Model {
         timer.cancel();
         timer.purge();
     }
-    public int getTime(){
-        return clock;
-    }
-    public boolean isRunning() {
-        return isRunning;
-    }
 
-    public boolean isSuspended() {
-        return isSuspended;
+    public String[] stats() {
+        return new String[]{"#agents = " + agents.size(), "clock = " + clock};
     }
-
-    public abstract String[] stats();
 
     private class ClockUpdater extends TimerTask {
         public void run() {
