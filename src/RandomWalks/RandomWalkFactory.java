@@ -10,6 +10,6 @@ class RandomWalkFactory extends SimulationFactory {
         return "Random Walks Simulator";
     }
     public View makeView(Model model) {
-        return new RandomWalkView(model);
+        return new SimulationView(model);
     }
 }
