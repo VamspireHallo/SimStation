@@ -14,9 +14,17 @@ public enum Heading {
 
     public static Heading random() {
         int luck = Utilities.rng.nextInt(4);
-        if (luck == 0) return NORTH;
-        if (luck == 1) return EAST;
-        if (luck == 2) return SOUTH;
-        return WEST;
+        switch (luck) {
+            case 0:
+                return NORTH;
+            case 1:
+                return EAST;
+            case 2:
+                return SOUTH;
+            case 3:
+                return WEST;
+            default:
+                return null;
+        }
     }
 }

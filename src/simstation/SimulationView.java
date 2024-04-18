@@ -1,32 +1,40 @@
 package simstation;
+
 import mvc.*;
 
 import java.awt.*;
 import java.util.Iterator;
 
 public class SimulationView extends View {
+    protected Color agentColor = Color.WHITE;
+    protected Color backgroundColor = Color.DARK_GRAY;
+
     public SimulationView(Model model) {
         super(model);
+        this.setBackground(backgroundColor);
     }
 
-    protected void drawAgents(Graphics gc, Agent agent) {
-        gc.setColor(Color.WHITE);
-        gc.fillOval(agent.getXc(), agent.getYc(), 10, 10);
+    protected void drawAgents(Graphics gc) {
+        Iterator<Agent> it = model.as(Simulation.class).agentIterator();
+        gc.setColor(agentColor);
+
+        double cellWidth = ((double)getWidth())/ Simulation.SIZE;
+        double cellHeight = ((double)getHeight())/ Simulation.SIZE;
+
+        while (it.hasNext()) {
+            Agent a = it.next();
+            gc.fillOval((int)(a.getXc() *cellWidth), (int)(a.getYc() *cellHeight), (int)cellWidth, (int)cellHeight);
+        }
     }
 
     public void paintComponent(Graphics gc) {
         super.paintComponent(gc);
         Color oldColor = gc.getColor();
-        Simulation sim = (Simulation) model;
 
+        gc.setColor(backgroundColor);
         gc.fillRect(0,0, getWidth(), getHeight());
-        for (Agent agent : sim.agents) {
-            drawAgents(gc, agent);
-        }
-
+        drawAgents(gc);
 
         gc.setColor(oldColor);
     }
-
-
 }

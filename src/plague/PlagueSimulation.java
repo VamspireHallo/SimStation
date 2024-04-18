@@ -32,7 +32,7 @@ public class PlagueSimulation extends Simulation {
     }
 
     // Override stats method to calculate and display statistics
-    @Override
+
     public String[] stats() {
         int totalHosts = agents.size();
         int infectedHosts = 0;

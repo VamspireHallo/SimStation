@@ -20,53 +20,32 @@ public class PrisonerSimulation extends Simulation {
         }
     }
 
-    public Iterator<Agent> agentIterator() {
-        List<Agent> agents = getAgents(); // Retrieve the list of agents from the simulation
-        return agents.iterator(); // Return an iterator over the list of agents
-    }
-
     @Override
     public String[] stats() {
-        float totalFitnessCooperate = 0.0f;
-        int countCooperate = 0;
-        float totalFitnessCheat = 0.0f;
-        int countCheat = 0;
-        float totalFitnessRandomCooperate = 0.0f;
-        int countRandomCooperate = 0;
-        float totalFitnessTit4Tat = 0.0f;
-        int countTit4Tat = 0;
-
-        for (Agent agent : getAgents()) {
-            Prisoner prisoner = (Prisoner) agent;
-            Strategy strategy = prisoner.getStrategy();
-            float fitness = prisoner.getFitness();
-
-            if (strategy instanceof Cooperate) {
-                totalFitnessCooperate += fitness;
-                countCooperate++;
-            } else if (strategy instanceof Cheat) {
-                totalFitnessCheat += fitness;
-                countCheat++;
-            } else if (strategy instanceof RandomlyCooperate) {
-                totalFitnessRandomCooperate += fitness;
-                countRandomCooperate++;
-            } else if (strategy instanceof Tit4Tat) {
-                totalFitnessTit4Tat += fitness;
-                countTit4Tat++;
-            }
+        double[] fitness = new double[4];
+        Iterator<Agent> agentIterator = agentIterator();
+        while (agentIterator.hasNext()) {
+            Prisoner p = (Prisoner) agentIterator.next();
+            fitness[p.getStrategyAsInt()] = fitness[p.getStrategyAsInt()] + p.getFitness();
         }
-
-        // Calculate average fitness for each strategy type
-        float avgFitnessCooperate = (countCooperate > 0) ? totalFitnessCooperate / countCooperate : 0.0f;
-        float avgFitnessCheat = (countCheat > 0) ? totalFitnessCheat / countCheat : 0.0f;
-        float avgFitnessRandomCooperate = (countRandomCooperate > 0) ? totalFitnessRandomCooperate / countRandomCooperate : 0.0f;
-        float avgFitnessTit4Tat = (countTit4Tat > 0) ? totalFitnessTit4Tat / countTit4Tat : 0.0f;
-
-        return new String[] {
-                "Average Cooperate Fitness: " + avgFitnessCooperate,
-                "Average Cheat Fitness: " + avgFitnessCheat,
-                "Average Randomly Cooperate Fitness: " + avgFitnessRandomCooperate,
-                "Average Tit4Tat Fitness: " + avgFitnessTit4Tat
-        };
+        String[] stats = new String[4];
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < stats.length; ++i) {
+            builder.append("Average Fitness of Strategy [");
+            if (i == 0) {
+                builder.append("Cheat");
+            } else if (i == 1) {
+                builder.append("Cooperate");
+            } else if (i == 2) {
+                builder.append("Randomly Cooperate");
+            } else {
+                builder.append("Tit4Tat");
+            }
+            builder.append("] = ");
+            builder.append(fitness[i]/(COMMUNITYSIZE/4));
+            stats[i] = builder.toString();
+            builder.setLength(0);
+        }
+        return stats;
     }
 }

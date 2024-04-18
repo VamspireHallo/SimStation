@@ -3,40 +3,26 @@ import simstation.*;
 import mvc.*;
 
 import java.awt.*;
+import java.util.Iterator;
 
 public class PlagueView extends SimulationView {
     public PlagueView(Model model) {
         super(model);
     }
 
-    protected void drawHosts(Graphics gc, Host host, Agent agent) {
-        Color color;
-        if (host.isInfected()) {
-            color = Color.RED;
-        } else {
-            color = Color.GREEN;
-        }
-        gc.setColor(color);
-        int x = agent.getXc();
-        int y = agent.getYc();
-        gc.fillOval(x, y, 10, 10);
-    }
+    protected void drawAgents(Graphics gc) {
+        Iterator<Agent> it = model.as(Simulation.class).agentIterator();
 
-    public void paintComponent(Graphics gc) {
-        super.paintComponent(gc);
-        var sim = (PlagueSimulation) model;
-        for (Agent agent : sim.getAgents()) {
-            Host plague = (Host) agent;
-            Color color;
-            if (plague.isInfected()) {
-                color = Color.RED; // infected color
-            } else {
-                color = Color.GREEN; // No infect color
-            }
-            gc.setColor(color);
-            int x = agent.getXc();
-            int y = agent.getYc();
-            gc.fillOval(x, y, 10, 10);
+        double cellWidth = ((double)getWidth())/ Simulation.SIZE;
+        double cellHeight = ((double)getHeight())/ Simulation.SIZE;
+
+        while (it.hasNext()) {
+            Host a = (Host)it.next();
+            if (a.isInfected())
+            {gc.setColor(Color.RED);}
+            else{gc.setColor(Color.GREEN);}
+            gc.fillRect((int)(a.getXc() *cellWidth), (int)(a.getYc() *cellHeight), (int)cellWidth, (int)cellHeight);
         }
+    }
     }
 }
