@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 public class SimulationView extends View {
     protected Color agentColor = Color.WHITE;
-    protected Color backgroundColor = Color.WHITE;
+    protected Color backgroundColor = Color.DARK_GRAY;
 
     public SimulationView(Model model) {
         super(model);

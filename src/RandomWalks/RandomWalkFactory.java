@@ -1,5 +1,4 @@
 package RandomWalks;
-import flocking.FlockingView;
 import mvc.*;
 import simstation.*;
 

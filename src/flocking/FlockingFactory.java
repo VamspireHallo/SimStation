@@ -9,6 +9,6 @@ public class FlockingFactory extends SimulationFactory{
         return "Flocking Simulator";
     }
     public View makeView(Model model) {
-        return new FlockingView(model);
+        return new SimulationView(model);
     }
 }
