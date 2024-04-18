@@ -22,26 +22,29 @@ public class PrisonerView extends SimulationView {
         PrisonerSimulation ps = (PrisonerSimulation) model;
         Iterator<Agent> it = ps.agentIterator();
 
-        double cellWidth = ((double)getWidth())/ Simulation.SIZE;
-        double cellHeight = ((double)getHeight())/ Simulation.SIZE;
+        double cellWidth = ((double) getWidth()) / Simulation.SIZE;
+        double cellHeight = ((double) getHeight()) / Simulation.SIZE;
 
-        int centerOffset = 5;
-        gc.setColor(Color.WHITE);
         while (it.hasNext()) {
-            Prisoner a = (Prisoner)it.next();
-            if (a.getStrategyAsInt() == 0) {
-                gc.setColor(COLOR_CHEAT);
-            }
-            else if (a.getStrategyAsInt() == 1) {
-                gc.setColor(COLOR_COOPERATE);
-            }
-            else if (a.getStrategyAsInt() == 2) {
-                gc.setColor(COLOR_RANDOMLY_COOPERATE);
-            }
-            else {
-                gc.setColor(COLOR_TIT4TAT);
-            }
-            gc.fillRect((int)(a.getXc() *cellWidth), (int)(a.getYc() *cellHeight), (int)cellWidth, (int)cellHeight);
+            Prisoner a = (Prisoner) it.next();
+            Color agentColor = getColorForStrategy(a.getStrategy());
+            gc.setColor(agentColor);
+            gc.fillRect((int) (a.getXc() * cellWidth), (int) (a.getYc() * cellHeight), (int) cellWidth, (int) cellHeight);
+        }
+    }
+
+    private Color getColorForStrategy(Strategy strategy) {
+        if (strategy instanceof Cheat) {
+            return COLOR_CHEAT;
+        } else if (strategy instanceof Cooperate) {
+            return COLOR_COOPERATE;
+        } else if (strategy instanceof RandomlyCooperate) {
+            return COLOR_RANDOMLY_COOPERATE;
+        } else if (strategy instanceof Tit4Tat) {
+            return COLOR_TIT4TAT;
+        } else {
+            // Default color if strategy type is unrecognized
+            return Color.WHITE;
         }
     }
 }

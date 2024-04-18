@@ -3,76 +3,67 @@ package PrisonerDilemma;
 import mvc.*;
 import simstation.*;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Prisoner extends Agent {
-    private static final int RADIUS = 20;
-    private int fitness = 0;
-    private int vindictiveness = 0;
-    // when global vindictiveness is 0, punishing cheaters is disabled
+    private AtomicInteger fitness = new AtomicInteger(0);
     private boolean partnerCheated = false;
-    // switch this to a table to compare against all previous agents
-    private Strategy s;
-    private int strategyAsInt;
-    public Prisoner(Strategy s, int i, String name) {
+    private final Strategy strategy;
+    protected Prisoner myPrisoner;
+
+    public Prisoner(String name, Strategy.Type type) {
         super(name);
-        this.s = s;
-        this.strategyAsInt = i;
-        // add random vindictiveness capped at global maximum
+        strategy = Strategy.makeStrategy(type, this);
+        this.heading = Heading.random();
     }
+
+    @Override
+    public void update() {
+        // Prisoner walks around randomly
+        heading = Heading.random();
+        move(Utilities.rng.nextInt(10) + 1);
+
+        var partner = ((Prisoner) sim.getNeighbor(this, 10));
+        if (partner == null)
+            return;
+
+        boolean thisCoop = this.cooperate();
+        boolean partnerCoop = partner.cooperate();
+
+        if (thisCoop && partnerCoop) {
+            this.updateFitness(1);
+            partner.updateFitness(1);
+        } else if (thisCoop && !partnerCoop) {
+            partner.updateFitness(5);
+        } else if (!thisCoop && partnerCoop) {
+            this.updateFitness(5);
+        } else if (!thisCoop && !partnerCoop) {
+            this.updateFitness(3);
+            partner.updateFitness(3);
+        }
+
+        partnerCheated = !partnerCoop;
+    }
+
+    public Strategy getStrategy() {
+        return strategy;
+    }
+
+
+    public int getFitness() {
+        return fitness.get();
+    }
+
+    public void updateFitness(int amt) {
+        fitness.addAndGet(amt);
+    }
+
 
     public boolean cooperate() {
-        return s.decide(partnerCheated);
-        // consults the prisoner's strategy
-        // returns true if cooperate
-        // returns false if cheat
+        return strategy.cooperate();
     }
 
-    public void update() {
-        // find partner
-        Prisoner partner = (Prisoner)sim.getNeighbor(this, RADIUS);
-        // play a game with partner, update fitness and partnerCheated
-        // allow the user to change the parameters of the problem?
-        boolean myChoice = cooperate();
-        boolean partnerChoice;
-        if (partner != null && partner.s != null) {
-            partnerChoice = partner.cooperate();
-            if (myChoice && myChoice == partnerChoice) {
-                // both cooperated
-                updateFitness(3);
-                partner.updateFitness(3);
-                partnerCheated = false;
-                partner.partnerCheated = false;
-            } else if (!myChoice && myChoice == partnerChoice) {
-                // both cheated
-                updateFitness(1);
-                partner.updateFitness(1);
-                partnerCheated = true;
-                partner.partnerCheated = true;
-            } else if (myChoice && myChoice != partnerChoice) {
-                // I cooperated, my partner cheated
-                updateFitness(0);
-                partner.updateFitness(5);
-                partnerCheated = true;
-                partner.partnerCheated = false;
-            } else {
-                // I cheated, my partner cooperated
-                updateFitness(5);
-                partner.updateFitness(0);
-                partnerCheated = false;
-                partner.partnerCheated = true;
-            }
-        }
-        heading = Heading.random();
-        move(5);
+    public boolean hasPartnerCheated() {
+        return partnerCheated;
     }
-
-    private void updateFitness(int amt) {
-        fitness = fitness + amt;
-    }
-
-    public int getFitness() { return fitness; }
-
-    public int getStrategyAsInt() {
-        return strategyAsInt; }
-    public Strategy getStrategy() {
-        return s; }
 }

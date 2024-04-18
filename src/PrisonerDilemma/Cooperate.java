@@ -1,9 +1,11 @@
 package PrisonerDilemma;
 import simstation.*;
 import mvc.*;
-public class Cooperate implements Strategy {
+public class Cooperate extends Strategy {
+    public Cooperate(Prisoner myPrisoner) { super(myPrisoner); }
+
     @Override
-    public boolean decide(boolean partnerCheated) {
+    public boolean cooperate() {
         return true;
     }
 }

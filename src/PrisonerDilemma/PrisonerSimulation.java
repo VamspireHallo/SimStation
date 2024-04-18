@@ -4,62 +4,69 @@ import mvc.*;
 import simstation.*;
 
 import java.util.Iterator;
+import java.util.List;
 
 public class PrisonerSimulation extends Simulation {
-    public static double COMMUNITYSIZE = 40;
-    public Iterator<Agent> agentIterator() {
-        return agents.iterator();
-    }
+
+    public static final int COMMUNITY_SIZE = 40;
 
     @Override
     public void populate() {
-        for (int i = 0; i < COMMUNITYSIZE; ++i) {
-            addAgent(new Prisoner(initialize(i), i % 4, "Prisoner " + i));
+        for (int i = 0; i < COMMUNITY_SIZE; i++) {
+            for (Strategy.Type type : Strategy.Type.VALUES) {
+                String name = "prisoner" + i + "-" + type.name().toLowerCase();
+                addAgent(new Prisoner(name, type));
+            }
         }
     }
 
-    public Strategy initialize(int in) {
-        if (in % 4 == 0) {
-            return new Cheat();
-        }
-        if (in % 4 == 1) {
-            return new Cooperate();
-        }
-        if (in % 4 == 2) {
-            return new RandomlyCooperate();
-        }
-        if (in % 4 == 3) {
-            return new Tit4Tat();
-        }
-        return null;
+    public Iterator<Agent> agentIterator() {
+        List<Agent> agents = getAgents(); // Retrieve the list of agents from the simulation
+        return agents.iterator(); // Return an iterator over the list of agents
     }
 
     @Override
     public String[] stats() {
-        double[] fitness = new double[4];
-        Iterator<Agent> agentIterator = agentIterator();
-        while (agentIterator.hasNext()) {
-            Prisoner p = (Prisoner) agentIterator.next();
-            fitness[p.getStrategyAsInt()] = fitness[p.getStrategyAsInt()] + p.getFitness();
-        }
-        String[] stats = new String[4];
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < stats.length; ++i) {
-            builder.append("Average Fitness of Strategy [");
-            if (i == 0) {
-                builder.append("Cheat");
-            } else if (i == 1) {
-                builder.append("Cooperate");
-            } else if (i == 2) {
-                builder.append("Randomly Cooperate");
-            } else {
-                builder.append("Tit4Tat");
+        float totalFitnessCooperate = 0.0f;
+        int countCooperate = 0;
+        float totalFitnessCheat = 0.0f;
+        int countCheat = 0;
+        float totalFitnessRandomCooperate = 0.0f;
+        int countRandomCooperate = 0;
+        float totalFitnessTit4Tat = 0.0f;
+        int countTit4Tat = 0;
+
+        for (Agent agent : getAgents()) {
+            Prisoner prisoner = (Prisoner) agent;
+            Strategy strategy = prisoner.getStrategy();
+            float fitness = prisoner.getFitness();
+
+            if (strategy instanceof Cooperate) {
+                totalFitnessCooperate += fitness;
+                countCooperate++;
+            } else if (strategy instanceof Cheat) {
+                totalFitnessCheat += fitness;
+                countCheat++;
+            } else if (strategy instanceof RandomlyCooperate) {
+                totalFitnessRandomCooperate += fitness;
+                countRandomCooperate++;
+            } else if (strategy instanceof Tit4Tat) {
+                totalFitnessTit4Tat += fitness;
+                countTit4Tat++;
             }
-            builder.append("] = ");
-            builder.append(fitness[i]/(COMMUNITYSIZE/4));
-            stats[i] = builder.toString();
-            builder.setLength(0);
         }
-        return stats;
+
+        // Calculate average fitness for each strategy type
+        float avgFitnessCooperate = (countCooperate > 0) ? totalFitnessCooperate / countCooperate : 0.0f;
+        float avgFitnessCheat = (countCheat > 0) ? totalFitnessCheat / countCheat : 0.0f;
+        float avgFitnessRandomCooperate = (countRandomCooperate > 0) ? totalFitnessRandomCooperate / countRandomCooperate : 0.0f;
+        float avgFitnessTit4Tat = (countTit4Tat > 0) ? totalFitnessTit4Tat / countTit4Tat : 0.0f;
+
+        return new String[] {
+                "Average Cooperate Fitness: " + avgFitnessCooperate,
+                "Average Cheat Fitness: " + avgFitnessCheat,
+                "Average Randomly Cooperate Fitness: " + avgFitnessRandomCooperate,
+                "Average Tit4Tat Fitness: " + avgFitnessTit4Tat
+        };
     }
 }
